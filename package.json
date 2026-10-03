@@ -11,6 +11,7 @@
     "lint":"pnpm -r --if-present lint"
   },
   "devDependencies":{
-    "typescript":"^5.9.2"
+    "typescript":"^5.9.2",
+    "tsx":"^4.20.3"
   }
 }
