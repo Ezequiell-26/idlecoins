@@ -3,6 +3,7 @@
 ## 2026-10-04
 
 ### Added
+- established web-first platform constraint: browser client, responsive web UI, backend-authoritative state
 - initialized public IdleCoins repository
 - established product/game/economy/anti-fraud architecture
 - documented two-ledger model
