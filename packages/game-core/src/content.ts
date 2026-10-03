@@ -33,6 +33,15 @@ export interface ActiveBoost {
   expiresAtMs: number;
 }
 
+const ceilMultiplyDiv = (
+  value: bigint,
+  multiplier: bigint,
+  divisor: bigint
+): bigint => {
+  const product = value * multiplier;
+  return (product + divisor - 1n) / divisor;
+};
+
 export function calculateScaledCost(
   baseCost: bigint,
   multiplierBps: number,
@@ -40,7 +49,7 @@ export function calculateScaledCost(
 ): bigint {
   let cost = baseCost;
   for (let i = 0; i < level; i += 1) {
-    cost = cost * BigInt(multiplierBps) / 10000n;
+    cost = ceilMultiplyDiv(cost, BigInt(multiplierBps), 10000n);
   }
   return cost;
 }
@@ -51,10 +60,12 @@ export function calculateBuildingProduction(
   level: number
 ): bigint {
   if (level <= 0) return 0n;
+
   let production = baseProductionPerSecond;
   for (let i = 1; i < level; i += 1) {
-    production = production * BigInt(growthBps) / 10000n;
+    production = ceilMultiplyDiv(production, BigInt(growthBps), 10000n);
   }
+
   return production;
 }
 
