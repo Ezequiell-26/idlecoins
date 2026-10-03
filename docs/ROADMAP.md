@@ -8,6 +8,7 @@
 - security principles
 - CI
 - minimal shared contracts
+- engagement design system
 
 ## Phase 1 — Playable MVP
 
@@ -19,18 +20,31 @@
 - offline progression
 - missions
 - daily reward
+- streaks
+- milestone celebrations
 - persistence
 
-## Phase 2 — Rewards
+## Phase 2 — Retention Systems
+
+- achievements
+- collections
+- boosts
+- prestige
+- events
+- leaderboard leagues
+- seasonal progression
+- player mastery
+
+## Phase 3 — Rewards
 
 - provider adapter interface
-- rewarded-ad game boosts
+- rewarded-ad gameplay boosts
 - offer/task adapter
 - pending rewards
 - validation callbacks
 - earn history
 
-## Phase 3 — Wallet
+## Phase 4 — Wallet
 
 - authoritative ledger
 - payout eligibility
@@ -39,7 +53,7 @@
 - reconciliation
 - admin review
 
-## Phase 4 — Trust
+## Phase 5 — Trust
 
 - anti-fraud scoring
 - rate limits
@@ -48,19 +62,17 @@
 - audit tooling
 - account controls
 
-## Phase 5 — Growth
+## Phase 6 — Growth
 
 - referrals
-- seasons
-- events
-- achievements
-- leaderboards
-- analytics
+- social profiles
 - localization
+- analytics
+- live operations tooling
 
 ## Definition of Done for money
 
-A money feature is not considered complete until:
+A money feature is not complete until:
 - provider validation works
 - idempotency is tested
 - ledger entries are transactional
