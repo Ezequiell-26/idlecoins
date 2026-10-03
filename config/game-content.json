@@ -1,0 +1,65 @@
+{
+  "zones": [
+    {"id":"yard","name":"Starter Yard","unlockLevel":1},
+    {"id":"workshop","name":"Workshop","unlockLevel":3},
+    {"id":"factory","name":"Factory","unlockLevel":8},
+    {"id":"research","name":"Research Lab","unlockLevel":18},
+    {"id":"quantum","name":"Quantum Sector","unlockLevel":35}
+  ],
+  "buildings": [
+    {"id":"tap-hub","name":"Tap Hub","zoneId":"yard","unlockLevel":1,"baseCost":"20","costMultiplierBps":11500,"baseProductionPerSecond":"1","productionGrowthBps":11200,"maxLevel":100},
+    {"id":"micro-generator","name":"Micro Generator","zoneId":"yard","unlockLevel":1,"baseCost":"100","costMultiplierBps":11800,"baseProductionPerSecond":"5","productionGrowthBps":11400,"maxLevel":100},
+    {"id":"coin-press","name":"Coin Press","zoneId":"workshop","unlockLevel":3,"baseCost":"750","costMultiplierBps":12000,"baseProductionPerSecond":"30","productionGrowthBps":11500,"maxLevel":100},
+    {"id":"assembly-line","name":"Assembly Line","zoneId":"workshop","unlockLevel":4,"baseCost":"3500","costMultiplierBps":12200,"baseProductionPerSecond":"130","productionGrowthBps":11600,"maxLevel":100},
+    {"id":"fusion-reactor","name":"Fusion Reactor","zoneId":"factory","unlockLevel":8,"baseCost":"18000","costMultiplierBps":12500,"baseProductionPerSecond":"800","productionGrowthBps":11800,"maxLevel":100},
+    {"id":"mega-factory","name":"Mega Factory","zoneId":"factory","unlockLevel":10,"baseCost":"85000","costMultiplierBps":12700,"baseProductionPerSecond":"4200","productionGrowthBps":11900,"maxLevel":100},
+    {"id":"quantum-forge","name":"Quantum Forge","zoneId":"research","unlockLevel":18,"baseCost":"500000","costMultiplierBps":13000,"baseProductionPerSecond":"28000","productionGrowthBps":12000,"maxLevel":75},
+    {"id":"ai-factory","name":"AI Factory","zoneId":"research","unlockLevel":22,"baseCost":"2500000","costMultiplierBps":13200,"baseProductionPerSecond":"160000","productionGrowthBps":12100,"maxLevel":75},
+    {"id":"orbital-miner","name":"Orbital Miner","zoneId":"quantum","unlockLevel":35,"baseCost":"15000000","costMultiplierBps":13500,"baseProductionPerSecond":"1200000","productionGrowthBps":12200,"maxLevel":50},
+    {"id":"dimension-engine","name":"Dimension Engine","zoneId":"quantum","unlockLevel":40,"baseCost":"100000000","costMultiplierBps":13800,"baseProductionPerSecond":"10000000","productionGrowthBps":12300,"maxLevel":50}
+  ],
+  "upgrades": [
+    {"id":"stronger-taps","name":"Stronger Taps","effectType":"CLICK_POWER","unlockLevel":1,"baseCost":"50","costMultiplierBps":14000,"effectValue":"1","maxLevel":50},
+    {"id":"efficient-machines","name":"Efficient Machines","effectType":"PRODUCTION","unlockLevel":2,"baseCost":"250","costMultiplierBps":14500,"effectValue":"500","maxLevel":30},
+    {"id":"rapid-cycle","name":"Rapid Cycle","effectType":"PRODUCTION","unlockLevel":4,"baseCost":"1800","costMultiplierBps":15000,"effectValue":"750","maxLevel":25},
+    {"id":"offline-capacity","name":"Offline Capacity","effectType":"OFFLINE_CAP","unlockLevel":5,"baseCost":"5000","costMultiplierBps":16000,"effectValue":"3600","maxLevel":20},
+    {"id":"energy-core","name":"Energy Core","effectType":"ENERGY_CAP","unlockLevel":6,"baseCost":"12000","costMultiplierBps":16000,"effectValue":"5","maxLevel":20},
+    {"id":"hyper-production","name":"Hyper Production","effectType":"PRODUCTION","unlockLevel":9,"baseCost":"50000","costMultiplierBps":16500,"effectValue":"1000","maxLevel":20},
+    {"id":"precision-click","name":"Precision Click","effectType":"CLICK_POWER","unlockLevel":12,"baseCost":"250000","costMultiplierBps":17000,"effectValue":"10","maxLevel":20},
+    {"id":"automation-matrix","name":"Automation Matrix","effectType":"PRODUCTION","unlockLevel":18,"baseCost":"1500000","costMultiplierBps":17500,"effectValue":"1500","maxLevel":15},
+    {"id":"quantum-efficiency","name":"Quantum Efficiency","effectType":"PRODUCTION","unlockLevel":35,"baseCost":"25000000","costMultiplierBps":18000,"effectValue":"2000","maxLevel":15}
+  ],
+  "milestones": [
+    {"id":"m1","title":"First Upgrade","targetCoins":"50","rewards":[{"currency":"COINS","amount":"100"}],"unlock":"Workshop preview"},
+    {"id":"m2","title":"First Automation","targetCoins":"500","rewards":[{"currency":"COINS","amount":"500"}],"unlock":"Workshop"},
+    {"id":"m3","title":"Growing Factory","targetCoins":"2500","rewards":[{"currency":"COINS","amount":"2500"}],"unlock":"Second building slot"},
+    {"id":"m4","title":"Production Line","targetCoins":"10000","rewards":[{"currency":"COINS","amount":"10000"}],"unlock":"Factory preview"},
+    {"id":"m5","title":"Industrial","targetCoins":"50000","rewards":[{"currency":"COINS","amount":"25000"}],"unlock":"Factory"},
+    {"id":"m6","title":"Mega Production","targetCoins":"250000","rewards":[{"currency":"COINS","amount":"100000"}],"unlock":"Prestige preview"},
+    {"id":"m7","title":"Breakthrough","targetCoins":"1000000","rewards":[{"currency":"COINS","amount":"500000"}],"unlock":"Research preview"},
+    {"id":"m8","title":"Research Online","targetCoins":"5000000","rewards":[{"currency":"COINS","amount":"2500000"}],"unlock":"Research Lab"},
+    {"id":"m9","title":"Quantum Leap","targetCoins":"50000000","rewards":[{"currency":"COINS","amount":"25000000"}],"unlock":"Quantum preview"},
+    {"id":"m10","title":"First Singularity","targetCoins":"500000000","rewards":[{"currency":"COINS","amount":"250000000"}],"unlock":"Quantum Sector"}
+  ],
+  "missions": [
+    {"id":"mission-click-25","title":"Warm Up","type":"CLICK","target":"25","reward":[{"currency":"COINS","amount":"75"},{"currency":"XP","amount":"25"}]},
+    {"id":"mission-click-100","title":"Keep Tapping","type":"CLICK","target":"100","reward":[{"currency":"COINS","amount":"300"},{"currency":"XP","amount":"75"}]},
+    {"id":"mission-coins-1000","title":"First Thousand","type":"EARN_COINS","target":"1000","reward":[{"currency":"COINS","amount":"500"},{"currency":"XP","amount":"100"}]},
+    {"id":"mission-building-3","title":"Build Momentum","type":"BUY_BUILDING","target":"3","reward":[{"currency":"COINS","amount":"1200"},{"currency":"XP","amount":"150"}]},
+    {"id":"mission-upgrade-5","title":"Tune The Machine","type":"BUY_UPGRADE","target":"5","reward":[{"currency":"COINS","amount":"2500"},{"currency":"XP","amount":"250"}]},
+    {"id":"mission-coins-10000","title":"Five Digits","type":"EARN_COINS","target":"10000","reward":[{"currency":"COINS","amount":"5000"},{"currency":"XP","amount":"400"}]},
+    {"id":"mission-building-10","title":"Small Empire","type":"BUY_BUILDING","target":"10","reward":[{"currency":"COINS","amount":"20000"},{"currency":"XP","amount":"700"}]},
+    {"id":"mission-prestige-1","title":"Rebirth","type":"PRESTIGE","target":"1","reward":[{"currency":"COINS","amount":"50000"},{"currency":"XP","amount":"1500"}]}
+  ],
+  "boosts": [
+    {"id":"production-rush","name":"Production Rush","type":"PRODUCTION","multiplierBps":20000,"durationSeconds":300,"sources":["GAME","MISSION","REWARDED_AD","EVENT"]},
+    {"id":"hyper-tap","name":"Hyper Tap","type":"CLICK_POWER","multiplierBps":30000,"durationSeconds":180,"sources":["GAME","MISSION","REWARDED_AD"]},
+    {"id":"mission-focus","name":"Mission Focus","type":"MISSION_REWARD","multiplierBps":15000,"durationSeconds":600,"sources":["MISSION","REWARDED_AD","EVENT"]}
+  ],
+  "prestige": {
+    "firstRequirementCoins":"1000000",
+    "basePermanentMultiplierBps":10500,
+    "multiplierIncreaseBpsPerPrestige":500,
+    "coinResetPercent":100
+  }
+}
