@@ -4,6 +4,6 @@
   "private":true,
   "type":"module",
   "scripts":{
-    "test":"node --experimental-strip-types src/self-test.ts"
+    "test":"tsx src/self-test.ts"
   }
 }
