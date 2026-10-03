@@ -1,61 +1,180 @@
 # Game Design
 
-## Fantasy
+## Design goal
 
-IdleCoins presents a simple incremental world that grows from manual clicking into an automated economy.
+IdleCoins debe producir una sensación constante de **progreso, descubrimiento y dominio**. El jugador debe tener siempre una siguiente mejora, misión o desbloqueo razonable.
 
-## Progression
+La referencia es la intensidad de los mejores juegos incrementales, no las mecánicas de apuesta de casino.
+
+## Core loop
 
 ```
 Click
-  -> Generator
-  -> Automation
-  -> Industrial buildings
-  -> Advanced production
-  -> Multipliers
-  -> Prestige
-  -> New season
+  -> produce Coins
+  -> compra upgrade
+  -> aumenta producción
+  -> desbloquea contenido
+  -> completa misión
+  -> obtiene boost
+  -> descubre siguiente objetivo
 ```
 
-## Core entities
+## One-more-upgrade loop
 
-### Generator
+Cada sesión debe mostrar:
 
-Produces Coins per second.
+1. objetivo actual;
+2. progreso;
+3. recompensa;
+4. siguiente desbloqueo.
 
-### Upgrade
+Ejemplo:
 
-Improves production, efficiency or click power.
+```
+HITO
+1.000 / 1.250 Coins
 
-### Boost
+████████████████░░░ 80%
 
-Temporary multiplier with a defined duration.
+Al llegar:
++1 Generator slot
++25% production
+Nuevo sector
+```
 
-### Mission
+## Feedback inmediato
 
-A bounded objective that grants game rewards.
+Cada acción importante debe generar feedback:
+- número que sube;
+- microanimación;
+- partículas;
+- sonido opcional;
+- progreso actualizado.
 
-### Prestige
+Las celebraciones deben ser breves y no ocultar controles.
 
-Resets selected progression while awarding a permanent meta multiplier.
+## Progression layers
 
-## Session behavior
+### Instant
+Click, Coins, combo visual y micro feedback.
 
-The game state must be deterministic enough to reconcile offline progress on the server.
+### Minutes
+Upgrade, mission, boost y unlock.
 
-A client may display predicted production for responsiveness, but the server remains authoritative for persistent state.
+### Session
+Nuevo edificio, zona, achievement o milestone.
 
-## Anti-idle abuse
+### Days
+Streak, collection, prestige y event progress.
 
-Offline progression has configurable caps so an account cannot create unlimited value simply by leaving a tab open.
+### Long term
+Mastery, seasonal progression y league rank.
 
-## Future systems
+## Excitement without gambling
 
+Permitido para gameplay:
+- recompensas variables de Coins/XP/cosméticos;
+- cofres obtenidos jugando;
+- eventos;
+- multiplicadores;
+- descubrimientos;
+- rachas.
+
+Evitar:
+- apuestas de Coins o dinero;
+- ruletas pagadas;
+- pérdida de dinero por azar;
+- recompensas monetarias aleatorias compradas;
+- probabilidades ocultas;
+- falsas situaciones de "casi ganas";
+- presión artificial para depositar o retirar.
+
+Las recompensas puramente lúdicas deben permanecer separadas del balance monetario.
+
+## Streaks
+
+Ejemplo:
+
+```
+Día 1 +500 Coins
+Día 2 +750
+Día 3 +1.000
+Día 4 +boost
+Día 5 +2.000
+Día 6 +XP
+Día 7 +cosmetic
+```
+
+Perder el streak no destruye progreso ni saldo.
+
+## Prestige
+
+El prestigio reinicia una capa temporal para entregar un multiplicador permanente:
+
+```
+RESET:
+- buildings
+- temporary bonuses
+
+KEEP:
+- prestige
+- permanent multiplier
 - achievements
-- seasons
-- events
-- leaderboards
-- clans
 - cosmetics
-- collections
-- social challenges
+```
+
+## Events
+
+Eventos de corta duración:
+- Production Rush
+- Double Mission XP
+- Factory Challenge
+- Weekend Sector
+- Community Milestone
+
+Las reglas, fechas y condiciones deben ser visibles.
+
+## Social
+
+- leaderboard semanal;
+- leagues;
+- achievements;
+- profile level;
+- badges;
+- friends comparison;
+- seasonal progression.
+
+## Offline return
+
+Al regresar:
+
+```
+BIENVENIDO DE VUELTA
+
+Ausente: 6h 42m
+Producción acumulada: +184.200 Coins
+
+BONUS
++10% production durante 15 min
+
+[RECLAMAR]
+```
+
+## Rewarded ads
+
+Los anuncios recompensados aportan beneficios de gameplay:
+- x2 production;
+- instant offline collection;
+- energy;
+- mission reroll;
+- temporary boost.
+
+No se deben presentar como una apuesta o como una garantía de efectivo retirable.
+
+## Pacing
+
+La curva debe alternar progreso rápido, decisión, acumulación, gran hito y desbloqueo nuevo.
+
+La pregunta que debe responder la interfaz es:
+
+**¿Qué tengo? ¿Qué puedo mejorar? ¿Qué viene después?**
