@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  repository-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository structure
+        run: |
+          test -f README.md
+          test -f docs/ARCHITECTURE.md
+          test -f docs/ECONOMY.md
+          test -f docs/ANTI-FRAUD.md
+          test -f config/defaults.json
+          test -d apps
+          test -d packages
+          echo "IdleCoins foundation checks passed."
