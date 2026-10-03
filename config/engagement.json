@@ -1,0 +1,23 @@
+{
+  "pacing": {
+    "targetFirstUpgradeSeconds": 45,
+    "targetFirstMilestoneMinutes": 3,
+    "targetFirstAutomationMinutes": 5
+  },
+  "streaks": {
+    "enabled": true,
+    "resetOnMiss": true,
+    "destroyPlayerProgress": false
+  },
+  "events": {
+    "enabled": true,
+    "maxActiveEventsPerUser": 3
+  },
+  "motion": {
+    "respectReducedMotion": true
+  },
+  "monetization": {
+    "cashGambling": false,
+    "paidRandomizedCashRewards": false
+  }
+}
