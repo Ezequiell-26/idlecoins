@@ -1,0 +1,27 @@
+{
+  "alwaysHasNextAction": true,
+  "targets": {
+    "microWinSeconds": 10,
+    "earlyUpgradeSeconds": 90,
+    "firstUnlockMinutes": 8,
+    "sessionMilestoneMinutes": 20
+  },
+  "goalLayers": {
+    "micro": true,
+    "upgrade": true,
+    "unlock": true,
+    "meta": true
+  },
+  "catchUp": {
+    "enabled": true,
+    "gameplayOnly": true,
+    "neverDestroyPlayerProgress": true
+  },
+  "recommendation": {
+    "enabled": true,
+    "maxVisiblePrimaryRecommendations": 1
+  },
+  "metrics": {
+    "trackDeadEndSessions": true
+  }
+}
