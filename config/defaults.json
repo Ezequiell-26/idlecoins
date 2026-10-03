@@ -1,0 +1,19 @@
+{
+  "game": {
+    "offlineProgressCapSeconds": 86400,
+    "startingCoins": 0,
+    "startingClickPower": 1
+  },
+  "economy": {
+    "minimumWithdrawalMinor": 500,
+    "currency": "USD"
+  },
+  "rewards": {
+    "defaultPendingWindowSeconds": 86400
+  },
+  "risk": {
+    "manualReviewScore": 40,
+    "rejectScore": 60,
+    "blockScore": 80
+  }
+}
