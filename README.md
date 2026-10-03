@@ -1,53 +1,80 @@
 # IdleCoins
 
-IdleCoins es una plataforma web híbrida de **idle clicker + rewards**.
+IdleCoins es una plataforma web híbrida de **idle/incremental game + rewards**.
 
-La idea central es combinar un juego incremental que tenga valor por sí mismo con una capa de tareas, ofertas y experiencias publicitarias recompensadas. La economía distingue claramente las monedas de juego de los fondos potencialmente retirables.
+El objetivo es que el juego sea atractivo por sí mismo y tenga una capa económica separada, transparente y sostenible.
 
-## Principios
+## Experiencia
 
-- El juego debe ser divertido aunque el usuario nunca retire dinero.
-- Las recompensas económicas deben estar respaldadas por ingresos reales y reglas de elegibilidad.
-- El frontend nunca puede acreditar dinero por sí solo.
-- Toda recompensa económica pasa por un ledger auditable y validación antifraude.
-- Las integraciones externas se implementan detrás de adaptadores.
-- La economía debe poder parametrizarse sin reescribir el juego.
-- Seguridad, privacidad, cumplimiento y antifraude forman parte del producto desde el MVP.
+```
+PLAY
+  -> Coins
+  -> upgrades
+  -> automation
+  -> milestones
+  -> unlocks
+  -> prestige
+  -> mastery
 
-## Monorepo
+EARN
+  -> eligible task/offer
+  -> provider validation
+  -> pending reward
+  -> fraud checks
+  -> available balance
+  -> payout
+```
+
+## Qué hace atractivo el juego
+
+- feedback inmediato;
+- metas visibles;
+- upgrades frecuentes al principio;
+- misiones cortas;
+- boosts temporales;
+- streaks;
+- hitos celebrables;
+- nuevas zonas;
+- prestige;
+- eventos;
+- colecciones;
+- ligas y rankings;
+- progresión de temporada;
+- objetivos de largo plazo.
+
+La intensidad visual puede ser alta, pero el producto evita convertir el dinero retirable en una mecánica de apuesta.
+
+## Arquitectura
 
 ```text
 apps/
-  web/                 # interfaz web
-  api/                 # backend HTTP / jobs
+  web/
+  api/
 
 packages/
-  game-core/           # reglas deterministas del idle game
-  shared/              # tipos y contratos compartidos
-  economy/             # reglas de economía y ledger
-  integrations/        # adaptadores de ads/offers/payouts
-  anti-fraud/          # scoring y reglas de riesgo
-  config/              # configuración tipada
+  shared/
+  game-core/
+  economy/
+  integrations/
+  anti-fraud/
+  config/
 
 docs/
-  product/             # visión y UX
-  game/                # game design
-  economy/             # economía y payouts
-  security/            # seguridad y antifraude
-  architecture/        # arquitectura
-  operations/          # operación y observabilidad
-  compliance/          # requisitos y políticas
-
-infra/
-  ci/                  # automatización CI/CD
-  database/            # evolución del esquema
-scripts/               # tooling local
+  product/
+  game/
+  economy/
+  security/
+  operations/
 ```
 
-## Estado
+## Principios
 
-Fase actual: **Fundación del producto**.
+- El frontend nunca es autoridad sobre dinero.
+- Los Coins del juego están separados del balance monetario.
+- Los callbacks externos son verificados e idempotentes.
+- Todo movimiento monetario queda en un ledger auditable.
+- Los proveedores externos son intercambiables.
+- La economía se parametriza.
+- Seguridad y antifraude forman parte del MVP.
 
-Este repositorio empieza como una base limpia. La implementación se hará por etapas verificables para evitar una economía rota, deuda estructural o dependencias prematuras.
-
-Consulta [docs/ROADMAP.md](docs/ROADMAP.md) para el orden de construcción.
+Consulta [docs/GAME-DESIGN.md](docs/GAME-DESIGN.md), [docs/ENGAGEMENT.md](docs/ENGAGEMENT.md) y [docs/ROADMAP.md](docs/ROADMAP.md).
