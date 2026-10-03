@@ -1,13 +1,16 @@
 {
-  "name": "idlecoins",
-  "private": true,
-  "version": "0.1.0",
-  "description": "Idle clicker and rewards platform.",
-  "packageManager": "pnpm@10.12.4",
-  "scripts": {
-    "check": "pnpm -r check",
-    "test": "pnpm -r test",
-    "build": "pnpm -r build",
-    "lint": "pnpm -r lint"
+  "name":"idlecoins",
+  "private":true,
+  "version":"0.1.0",
+  "description":"Idle clicker and rewards platform.",
+  "packageManager":"pnpm@10.12.4",
+  "scripts":{
+    "check":"pnpm -r check && pnpm exec tsc --noEmit",
+    "test":"pnpm -r test",
+    "build":"pnpm -r build",
+    "lint":"pnpm -r lint"
+  },
+  "devDependencies":{
+    "typescript":"^5.9.2"
   }
 }
