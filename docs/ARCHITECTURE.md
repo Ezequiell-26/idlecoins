@@ -1,5 +1,11 @@
 # Architecture
 
+## Platform constraint
+
+IdleCoins is a **web platform**. The primary client is a browser application, responsive across desktop and mobile. Native desktop/mobile applications are not part of the core architecture.
+
+The browser is a presentation and interaction layer. The API/backend remains authoritative for persistent game state, rewards, wallet operations and security decisions.
+
 ## Target shape
 
 ```text
