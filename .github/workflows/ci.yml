@@ -25,6 +25,12 @@ jobs:
       - name: Typecheck
         run: pnpm exec tsc --noEmit
 
+      - name: Web check
+        run: pnpm --filter @idlecoins/web check
+
+      - name: Web build
+        run: pnpm --filter @idlecoins/web build
+
       - name: Validate JSON/config
         run: |
           node -e "const fs=require('fs'); for (const f of ['config/defaults.json','config/engagement.json','config/progression.json','config/game-content.json']) JSON.parse(fs.readFileSync(f,'utf8')); console.log('JSON_OK')"
