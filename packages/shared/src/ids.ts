@@ -1,0 +1,15 @@
+export type UserId = string & { readonly __brand: "UserId" };
+export type GameId = string & { readonly __brand: "GameId" };
+export type GameStateId = string & { readonly __brand: "GameStateId" };
+export type WalletId = string & { readonly __brand: "WalletId" };
+export type TaskId = string & { readonly __brand: "TaskId" };
+export type TaskCompletionId = string & { readonly __brand: "TaskCompletionId" };
+export type RewardEventId = string & { readonly __brand: "RewardEventId" };
+export type WithdrawalId = string & { readonly __brand: "WithdrawalId" };
+export type ProviderId = string & { readonly __brand: "ProviderId" };
+export type MissionId = string & { readonly __brand: "MissionId" };
+export type UpgradeId = string & { readonly __brand: "UpgradeId" };
+export type BuildingId = string & { readonly __brand: "BuildingId" };
+export type SeasonId = string & { readonly __brand: "SeasonId" };
+export type EventId = string & { readonly __brand: "EventId" };
+export type AchievementId = string & { readonly __brand: "AchievementId" };
