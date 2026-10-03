@@ -6,17 +6,38 @@ on:
   pull_request:
 
 jobs:
-  repository-checks:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate repository structure
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.12.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Validate JSON/config
+        run: |
+          node -e "const fs=require('fs'); for (const f of ['config/defaults.json','config/engagement.json','config/progression.json','config/game-content.json']) JSON.parse(fs.readFileSync(f,'utf8')); console.log('JSON_OK')"
+
+      - name: Repository structure
         run: |
           test -f README.md
           test -f docs/ARCHITECTURE.md
           test -f docs/ECONOMY.md
           test -f docs/ANTI-FRAUD.md
-          test -f config/defaults.json
+          test -f docs/PROGRESSION.md
+          test -f config/game-content.json
           test -d apps
           test -d packages
-          echo "IdleCoins foundation checks passed."
+          echo "IdleCoins checks passed."
