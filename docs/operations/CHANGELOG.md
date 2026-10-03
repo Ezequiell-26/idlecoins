@@ -19,12 +19,20 @@
 - added package exports for domain model consumption
 - added progression and momentum rules
 - added always-next-action, catch-up and dead-end session metrics
+- added 5-zone / 10-building starter content
+- added 9 upgrade lines, 10 milestones, 8 missions and 3 gameplay boosts
+- added executable building/cost/production/upgrade/offline/prestige logic
+- added game-core self-test and real TypeScript CI verification
+
+### Verification
+- Remote clone verified on main
+- JSON configuration parsed successfully
+- TypeScript typecheck passed on remote machine
+- game-core self-test passed
 
 ### Next
-- implement persistence schema and migrations
-- implement playable MVP state transitions
-- implement progression scheduler and goal selector
-- build first 5-20 minute gameplay arc
-- add authentication and session handling
-- add API endpoints over the domain models
-- add model-level and integration tests
+- implement PostgreSQL persistence
+- implement server-authoritative game API
+- build the first playable web screen
+- connect the progression goal engine to persistent player state
+- add frontend telemetry for momentum/dead-end metrics
