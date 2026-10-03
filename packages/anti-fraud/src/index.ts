@@ -1,31 +1,16 @@
-export type RiskDecision =
-  | "ALLOW"
-  | "PENDING_REVIEW"
-  | "DELAY"
-  | "REJECT"
-  | "BLOCK";
+export * from "./models.js";
 
-export interface RiskSignals {
-  accountAgeSeconds: number;
-  recentTaskCount: number;
-  recentWithdrawalCount: number;
-  knownDuplicateSignal: boolean;
-  providerVerified: boolean;
-}
-
-export interface RiskAssessment {
-  decision: RiskDecision;
-  score: number;
-  reasons: string[];
-}
-
-export function assessRisk(signals: RiskSignals): RiskAssessment {
+export function assessRisk(signals: import("./models.js").RiskSignals): import("./models.js").RiskAssessment {
   let score = 0;
   const reasons: string[] = [];
 
   if (signals.knownDuplicateSignal) {
     score += 80;
     reasons.push("duplicate-account-signal");
+  }
+  if (signals.callbackReplaySignal) {
+    score += 50;
+    reasons.push("callback-replay");
   }
   if (!signals.providerVerified) {
     score += 40;
@@ -50,5 +35,12 @@ export function assessRisk(signals: RiskSignals): RiskAssessment {
     score >= 40 ? "PENDING_REVIEW" :
     score >= 20 ? "DELAY" : "ALLOW";
 
-  return { decision, score, reasons };
+  return {
+    userId: "unknown",
+    score,
+    decision,
+    reasons,
+    rulesVersion: "v1",
+    evaluatedAt: new Date().toISOString()
+  };
 }
