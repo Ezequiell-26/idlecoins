@@ -3,7 +3,6 @@ import {
   calculateScaledCost,
   type ContentBuilding,
   type ContentUpgrade,
-  calculateBuildingProduction,
   sumBuildingProduction
 } from "./content.js";
 
@@ -11,6 +10,8 @@ export interface RuntimeGameState extends GameState {
   playerLevel: number;
   lifetimeClicks: bigint;
   lifetimeCoins: bigint;
+  offlineCapSeconds: bigint;
+  missionRewardMultiplierBps: number;
   buildings: Record<string, number>;
   upgrades: Record<string, number>;
   boosts: Boost[];
@@ -21,6 +22,23 @@ export interface PurchaseResult {
   spent: bigint;
 }
 
+const activeMultiplier = (
+  boosts: readonly Boost[],
+  type: Boost["type"],
+  nowMs: number
+): bigint => boosts
+  .filter((boost) => boost.expiresAtMs > nowMs && boost.type === type)
+  .reduce((value, boost) => value * BigInt(boost.multiplierBps) / 10000n, 1n);
+
+const productionUpgradeMultiplierBps = (
+  definitions: readonly ContentUpgrade[],
+  levels: Readonly<Record<string, number>>
+): number => definitions.reduce((total, definition) => {
+  if (definition.effectType !== "PRODUCTION") return total;
+  const level = levels[definition.id] ?? 0;
+  return total + Number(definition.effectValue) * level;
+}, 10000);
+
 export function totalBuildingProduction(
   definitions: readonly ContentBuilding[],
   state: RuntimeGameState
@@ -29,26 +47,31 @@ export function totalBuildingProduction(
 }
 
 export function recalculateProduction(
-  definitions: readonly ContentBuilding[],
+  buildingDefinitions: readonly ContentBuilding[],
   state: RuntimeGameState,
-  nowMs: number
+  nowMs: number,
+  upgradeDefinitions: readonly ContentUpgrade[] = []
 ): bigint {
-  const base = totalBuildingProduction(definitions, state);
-  const multiplier = state.boosts
-    .filter((boost) => boost.expiresAtMs > nowMs && boost.type === "PRODUCTION")
-    .reduce((value, boost) => value * BigInt(boost.multiplierBps) / 10000n, 1n);
+  const base = totalBuildingProduction(buildingDefinitions, state);
+  const upgradeMultiplierBps = productionUpgradeMultiplierBps(
+    upgradeDefinitions,
+    state.upgrades
+  );
+  const boostMultiplier = activeMultiplier(state.boosts, "PRODUCTION", nowMs);
 
-  return base * BigInt(state.permanentMultiplierBps) / 10000n * multiplier;
+  return (
+    base *
+    BigInt(state.permanentMultiplierBps) *
+    BigInt(upgradeMultiplierBps) *
+    boostMultiplier
+  ) / 1000000000000n;
 }
 
 export function performClick(
   state: RuntimeGameState,
   nowMs: number
 ): RuntimeGameState {
-  const clickBoost = state.boosts
-    .filter((boost) => boost.expiresAtMs > nowMs && boost.type === "CLICK_POWER")
-    .reduce((value, boost) => value * BigInt(boost.multiplierBps) / 10000n, 1n);
-
+  const clickBoost = activeMultiplier(state.boosts, "CLICK_POWER", nowMs);
   const gained = state.clickPower * clickBoost;
 
   return {
@@ -65,13 +88,15 @@ export function buyBuilding(
   definitions: readonly ContentBuilding[],
   state: RuntimeGameState,
   buildingId: string,
-  nowMs: number
+  nowMs: number,
+  upgradeDefinitions: readonly ContentUpgrade[] = []
 ): PurchaseResult | null {
   const definition = definitions.find((item) => item.id === buildingId);
   if (!definition) return null;
 
   const currentLevel = state.buildings[buildingId] ?? 0;
   if (definition.maxLevel !== null && currentLevel >= definition.maxLevel) return null;
+
   const cost = calculateScaledCost(
     definition.baseCost,
     definition.costMultiplierBps,
@@ -81,19 +106,19 @@ export function buyBuilding(
   if (state.coins < cost) return null;
 
   const buildings = { ...state.buildings, [buildingId]: currentLevel + 1 };
-  const productionPerSecond = recalculateProduction(
-    definitions,
-    { ...state, buildings },
-    nowMs
-  );
+  const nextState = { ...state, buildings };
 
   return {
     spent: cost,
     state: {
-      ...state,
+      ...nextState,
       coins: state.coins - cost,
-      productionPerSecond,
-      buildings,
+      productionPerSecond: recalculateProduction(
+        definitions,
+        nextState,
+        nowMs,
+        upgradeDefinitions
+      ),
       lastCheckpointMs: nowMs
     }
   };
@@ -103,7 +128,8 @@ export function buyUpgrade(
   definitions: readonly ContentUpgrade[],
   state: RuntimeGameState,
   upgradeId: string,
-  nowMs: number
+  nowMs: number,
+  buildingDefinitions: readonly ContentBuilding[] = []
 ): PurchaseResult | null {
   const definition = definitions.find((item) => item.id === upgradeId);
   if (!definition) return null;
@@ -120,20 +146,39 @@ export function buyUpgrade(
   if (state.coins < cost) return null;
 
   const upgrades = { ...state.upgrades, [upgradeId]: currentLevel + 1 };
-  let nextClickPower = state.clickPower;
-
-  if (definition.effectType === "CLICK_POWER") {
-    nextClickPower += definition.effectValue;
-  }
+  const nextState: RuntimeGameState = {
+    ...state,
+    coins: state.coins - cost,
+    upgrades,
+    clickPower:
+      definition.effectType === "CLICK_POWER"
+        ? state.clickPower + definition.effectValue
+        : state.clickPower,
+    energyCap:
+      definition.effectType === "ENERGY_CAP"
+        ? state.energyCap + Number(definition.effectValue)
+        : state.energyCap,
+    offlineCapSeconds:
+      definition.effectType === "OFFLINE_CAP"
+        ? state.offlineCapSeconds + definition.effectValue
+        : state.offlineCapSeconds,
+    missionRewardMultiplierBps:
+      definition.effectType === "MISSION_REWARD"
+        ? state.missionRewardMultiplierBps + Number(definition.effectValue)
+        : state.missionRewardMultiplierBps,
+    lastCheckpointMs: nowMs
+  };
 
   return {
     spent: cost,
     state: {
-      ...state,
-      coins: state.coins - cost,
-      clickPower: nextClickPower,
-      upgrades,
-      lastCheckpointMs: nowMs
+      ...nextState,
+      productionPerSecond: recalculateProduction(
+        buildingDefinitions,
+        nextState,
+        nowMs,
+        definitions
+      )
     }
   };
 }
@@ -142,12 +187,20 @@ export function collectOfflineProduction(
   definitions: readonly ContentBuilding[],
   state: RuntimeGameState,
   nowMs: number,
-  offlineCapSeconds: bigint
+  offlineCapSeconds: bigint,
+  upgradeDefinitions: readonly ContentUpgrade[] = []
 ): RuntimeGameState {
   const elapsedMs = Math.max(0, nowMs - state.lastCheckpointMs);
   const elapsedSeconds = BigInt(Math.floor(elapsedMs / 1000));
-  const capped = elapsedSeconds > offlineCapSeconds ? offlineCapSeconds : elapsedSeconds;
-  const production = recalculateProduction(definitions, state, nowMs);
+  const configuredCap =
+    state.offlineCapSeconds > offlineCapSeconds ? state.offlineCapSeconds : offlineCapSeconds;
+  const capped = elapsedSeconds > configuredCap ? configuredCap : elapsedSeconds;
+  const production = recalculateProduction(
+    definitions,
+    state,
+    nowMs,
+    upgradeDefinitions
+  );
   const gained = production * capped;
 
   return {
@@ -174,5 +227,3 @@ export function addBoost(
 ): RuntimeGameState {
   return { ...state, boosts: [...state.boosts, boost] };
 }
-
-export { calculateBuildingProduction };
