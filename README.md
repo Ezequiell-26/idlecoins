@@ -1,6 +1,6 @@
 # IdleCoins
 
-IdleCoins es una plataforma web híbrida de **idle/incremental game + rewards**.
+IdleCoins es una **plataforma web** híbrida de **idle/incremental game + rewards**. El producto se ejecuta en el navegador y su backend soporta la experiencia web.
 
 El objetivo es que el juego sea atractivo por sí mismo y tenga una capa económica separada, transparente y sostenible.
 
@@ -43,6 +43,15 @@ EARN
 - objetivos de largo plazo.
 
 La intensidad visual puede ser alta, pero el producto evita convertir el dinero retirable en una mecánica de apuesta.
+
+## Plataforma objetivo
+
+IdleCoins es **web-first**:
+- aplicación principal accesible desde navegador;
+- responsive para desktop y móvil;
+- backend remoto como autoridad de estado;
+- PWA opcional como evolución, sin convertir el producto en una app nativa;
+- no diseñar la arquitectura alrededor de ejecutables de escritorio.
 
 ## Arquitectura
 
