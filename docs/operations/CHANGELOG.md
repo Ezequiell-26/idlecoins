@@ -13,10 +13,14 @@
 - added engagement specification and pacing model
 - added streaks, milestones, events, collections, prestige and mastery to roadmap
 - added engagement guardrails
+- added shared identity, player, game, reward, wallet and event models
+- added game-core, economy, integrations, anti-fraud and API domain models
+- separated browser/API command contracts from authoritative domain state
+- added package exports for domain model consumption
 
 ### Next
-- implement the playable MVP
-- implement first 5-minute progression curve
-- implement visual reward feedback
-- add persistence schema
-- add authentication
+- implement persistence schema and migrations
+- implement playable MVP state transitions
+- add authentication and session handling
+- add API endpoints over the domain models
+- add model-level and integration tests
